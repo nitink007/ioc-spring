@@ -1,4 +1,4 @@
-package com.thoughtworks.gauge.example.java;
+package com.thoughtworks.gauge.example;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

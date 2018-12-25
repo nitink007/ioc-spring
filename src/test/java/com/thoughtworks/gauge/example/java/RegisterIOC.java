@@ -1,6 +1,7 @@
 package com.thoughtworks.gauge.example.java;
 
 import com.thoughtworks.gauge.ClassInitializer;
+import com.thoughtworks.gauge.example.SpringGaugeTestApp;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
