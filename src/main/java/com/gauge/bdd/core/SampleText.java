@@ -1,4 +1,4 @@
-package com.thoughtworks.gauge.example.core;
+package com.gauge.bdd.core;
 
 import org.springframework.stereotype.Component;
 

@@ -1,9 +1,8 @@
-package com.thoughtworks.gauge.example.java;
+package com.gauge.bdd.example.java;
 
+import com.gauge.bdd.core.SampleText;
 import com.thoughtworks.gauge.Step;
-import com.thoughtworks.gauge.example.core.DriverFactory;
-import com.thoughtworks.gauge.example.core.SampleText;
-import com.thoughtworks.gauge.main.action.ButtonAction;
+import com.gauge.bdd.action.ButtonAction;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

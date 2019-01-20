@@ -1,4 +1,4 @@
-package com.thoughtworks.gauge.example.java;
+package com.gauge.bdd.example.java;
 
 import com.thoughtworks.gauge.Step;
 import org.springframework.stereotype.Component;
@@ -28,4 +28,5 @@ public class PaymentService {
 
         assertEquals(receipt.getPaymentStatus(), ReceiptStatus.FAILURE);
     }
+
 }
