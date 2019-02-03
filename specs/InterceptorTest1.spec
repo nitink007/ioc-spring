@@ -9,6 +9,7 @@ Scenario Heading
 ----------------
 Tags: intercept1
 
+//* User sets "proxy"
 * User open "https://reqres.in/" url
 * User clicks on "List User" link
 * "Response" should be displayed

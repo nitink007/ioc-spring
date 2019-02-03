@@ -16,11 +16,17 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.DriverManager;
 
 @Component
@@ -31,13 +37,17 @@ public class InterceptorTest {
 
 
     @Step("User open <https://reqres.in/> url")
-    public void openUrl(String url) {
+    public void openUrl(String url) throws IOException {
         // start the proxy
         BrowserMobProxy proxy = new BrowserMobProxyServer();
-        proxy.start(0);
+        proxy.start();;
+        System.out.println(proxy.isStarted());
+        System.out.println(((BrowserMobProxyServer) proxy).isMitmDisabled());
+        System.out.println(proxy.getPort());
+//        System.out.println(proxy.isStarted());
+//        System.out.println(proxy.isStarted());
+//        System.out.println(proxy.isStarted());
 
-        // get the Selenium proxy object
-        Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
 
         proxy.addRequestFilter(new RequestFilter() {
             @Override
@@ -60,12 +70,18 @@ public class InterceptorTest {
             }
         });
 
+
+        // get the Selenium proxy object
+        Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
+
         // configure it as a desired capability
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
 
         // start the browser up
-        WebDriver driver = driverM.getDriver();
+//        WebDriver driver = driverM.getDriver(capabilities);
+        System.setProperty("webdriver.chrome.driver","Binaries/chromedriver.exe");
+        WebDriver driver = new ChromeDriver(capabilities);
 
         // enable more detailed HAR capture, if desired (see CaptureType for the complete list)
         proxy.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT);
@@ -79,6 +95,9 @@ public class InterceptorTest {
         // get the HAR data
         Har har = proxy.getHar();
 
+        FileOutputStream file = new FileOutputStream(new File("C:\\Users\\Nitin\\IdeaProjects\\ioc-spring\\dataFiles\\har1.txt"));
+
+        har.writeTo(file);
 
 
         // responses are equally as simple:
@@ -91,7 +110,7 @@ public class InterceptorTest {
 //            }
 //        });
 
-        driver.quit();
+//        driver.quit();
 
     }
 
@@ -107,4 +126,21 @@ public class InterceptorTest {
 
     }
 
+    @Step("User sets <proxy>")
+    public void setProxy(String proxyUrl) {
+        Proxy proxy = new Proxy();
+        // The URL here is the URL that the browsermob proxy is using
+//        proxy.setHttpProxy("localhost:9100");
+        proxy.setProxyAutoconfigUrl("localhost:9100");
+
+//        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+//        capabilities.setCapability(CapabilityType.PROXY, proxy);
+
+        ChromeOptions options = new ChromeOptions();
+        options.setProxy(proxy);
+
+        WebDriver driver = driverM.getDriver(options);
+        driver.get("http://google.com");
+
+    }
 }
